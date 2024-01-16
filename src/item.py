@@ -1,3 +1,7 @@
+import csv
+import os
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -13,7 +17,7 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        self.name = name
+        self.__name = name
         self.price = price
         self.quantity = quantity
         self.all.append(self)
@@ -33,3 +37,39 @@ class Item:
         """
         self.price = self.price * self.pay_rate
         return self.price
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, value):
+        if len(value) <= 10:
+            self.__name = value
+        else:
+            self.__name = value[:10]
+
+    @classmethod
+    def instantiate_from_csv(cls, abs_path):
+        path = "../src/items.csv"
+        abs_path = os.path.abspath(path)
+        with open(abs_path, "r", encoding="cp1251") as file:
+            cls.all.clear()
+            reader = csv.DictReader(file)
+            for row in reader:
+                name = row["name"]
+                price = float(row["price"])
+                quantity = int(row["quantity"])
+                cls(name, price, quantity)
+    @staticmethod
+    def string_to_number(string):
+        numbers = []
+        for number in string:
+            if number.isdigit():
+                numbers.append(number)
+            else:
+                None
+        return (int(numbers[0]))
+
+
+
