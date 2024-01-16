@@ -50,17 +50,16 @@ class Item:
             self.__name = value[:10]
 
     @classmethod
-    def instantiate_from_csv(cls, abs_path):
-        path = "../src/items.csv"
-        abs_path = os.path.abspath(path)
-        with open(abs_path, "r", encoding="cp1251") as file:
-            cls.all.clear()
+    def instantiate_from_csv(cls, path):
+        cls.all.clear()
+        with open(path, newline="", encoding="cp1251") as file:
             reader = csv.DictReader(file)
             for row in reader:
                 name = row["name"]
                 price = float(row["price"])
                 quantity = int(row["quantity"])
                 cls(name, price, quantity)
+
     @staticmethod
     def string_to_number(string):
         numbers = []
@@ -70,6 +69,3 @@ class Item:
             else:
                 None
         return (int(numbers[0]))
-
-
-
