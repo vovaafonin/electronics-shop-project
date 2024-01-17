@@ -51,6 +51,7 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls, path):
+        """Класс-метод, инициализирующий экземпляры класса `Item` данными из файла _src/items.csv"""
         cls.all.clear()
         with open(path, newline="", encoding="cp1251") as file:
             reader = csv.DictReader(file)
@@ -62,6 +63,7 @@ class Item:
 
     @staticmethod
     def string_to_number(string):
+        """Статический метод, возвращающий число из числа-строки"""
         numbers = []
         for number in string:
             if number.isdigit():
