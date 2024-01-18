@@ -25,3 +25,9 @@ def test_instantiate_from_csv():
     assert len(Item.all) == 5
     item1 = Item.all[0]
     assert item1.name == "Смартфон"
+
+def test_setter_name():
+    item1.name = "смартфон"
+    assert item1.name == "смартфон"
+    item1.name = "суперсмартфон"
+    assert item1.name == "суперсмарт"
