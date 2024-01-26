@@ -1,6 +1,7 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 from config import PATH_TO_CSV
 from src.item import Item
+from src.phone import Phone
 
 item1 = Item("Iphone 12", 60000, 5)
 
@@ -42,3 +43,10 @@ def test_repr():
 def test_str():
     item1 = Item("смартфон", 50000, 4)
     assert str(item1) == 'смартфон'
+
+
+def test_add():
+    phone1 = Phone("iPhone 14", 120000, 5, 2)
+    assert phone1 + item1 == 10
+    phone1 = Phone("iPhone 14", 120000, 10, 2)
+    assert phone1 + item1 == 15
