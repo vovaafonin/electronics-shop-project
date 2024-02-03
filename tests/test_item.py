@@ -1,7 +1,11 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
+import pytest
+
 from config import PATH_TO_CSV
 from src.item import Item
 from src.phone import Phone
+from src.InstantiateCSVError import InstantiateCSVError
+import os.path
 
 item1 = Item("Iphone 12", 60000, 5)
 
@@ -50,3 +54,10 @@ def test_add():
     assert phone1 + item1 == 10
     phone1 = Phone("iPhone 14", 120000, 10, 2)
     assert phone1 + item1 == 15
+def test_csv_file_exceptions():
+    ROOT_DIR = os.path.dirname(__file__)
+    data1 = os.path.join(ROOT_DIR, "src", "file.txt")
+    data2 = os.path.join(ROOT_DIR, "src", "items2.csv")
+
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv(data1)
