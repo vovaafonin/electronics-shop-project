@@ -1,7 +1,6 @@
 import csv
 import os.path
 from src.InstantiateCSVError import InstantiateCSVError
-import pathlib
 
 
 class Item(InstantiateCSVError):
@@ -65,23 +64,18 @@ class Item(InstantiateCSVError):
     @classmethod
     def instantiate_from_csv(cls, path):
         """Класс-метод, инициализирующий экземпляры класса `Item` данными из файла _src/items.csv"""
-        try:
-            cls.all.clear()
-            with open(path, newline="", encoding="cp1251") as file:
-                reader = csv.DictReader(file)
-                for row in reader:
-                    if row["name"] is None or row["price"] is None or row["quantity"] is None:
-                        raise InstantiateCSVError("Файл item.csv поврежден")
-
-                    else:
-                        name = row["name"]
-                        price = float(row["price"])
-                        quantity = int(row["quantity"])
-                        cls(name, price, quantity)
-        except FileNotFoundError:
-            print("Отсутствует файл item.csv")
-            raise
-
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"Отсутствует файл {path}")
+        cls.all.clear()
+        with open(path, newline="", encoding="cp1251") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if not row.get("name") or not row.get("price") or not row.get("quantity"):
+                    raise InstantiateCSVError(path)
+                name = row["name"]
+                price = float(row["price"])
+                quantity = int(row["quantity"])
+                cls(name, price, quantity)
     @staticmethod
     def string_to_number(string):
         """Статический метод, возвращающий число из числа-строки"""
